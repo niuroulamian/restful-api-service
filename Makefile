@@ -16,12 +16,6 @@ clean:
 	rm -rf build
 	rm -f internal/server/statics/*_gen.go
 
-golangci-lint:
-	go install golang.org/x/tools/cmd/goimports@latest
-	goimports -local go.mxc.org,github.com/mxc-foundation -w ./internal/ ./cmd/
-	docker pull golangci/golangci-lint:v1.50.0
-	docker run --rm -v $$(pwd):/app -v ~/.netrc:/root/.netrc -e GOPRIVATE=go.mxc.org -w /app golangci/golangci-lint:v1.50.0 golangci-lint run ./...
-
 test:
 	go test -race -cover -coverprofile coverage.out -coverpkg ./internal/... ./...
 	# IMPORTANT: the coverage required can only be increased
@@ -43,5 +37,5 @@ dep-graph:
 	# first install tools:
 	# sudo apt install graphviz
 	# go install github.com/loov/goda
-	goda graph -short 'github.com/mxc-foundation/gotmpl/...:root' | dot -Tpdf -o dep-graph.pdf
+	goda graph -short 'github.com/niuroulamian/restful-api-service/...:root' | dot -Tpdf -o dep-graph.pdf
 
