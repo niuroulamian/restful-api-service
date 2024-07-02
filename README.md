@@ -1,17 +1,4 @@
 # external-api
-External API takes external requests (RESTful or gRPC) then forward the request 
-to corresponding microservice for further processing.
-
-```mermaid
-flowchart LR
-    CLI1[MXC Controller] -->|RESTful|EA
-    CLI2[DataDash App] -->|RESTful|EA
-    CLI3[Customized Scripts] -->|RESTful|EA
-    EA[External API] -->|gRPC|MS1[microservice 1]
-    EA -->|gRPC|MS2[microservice 2]
-    EA --> |gRPC|MS3[microservice 3]
-    EA --> |gRPC|ms4[...]
-```
 
 ## Build API
 APIs are defined by `.proto` files, since we are using `buf` to generate the gPRC stubs, please read
@@ -96,7 +83,7 @@ Then we have:
 3. generate `buf.lock`
 ```shell
 cd ./usersrvapi
-buf mod update
+buf dep update
 ```
 Then we have:
 ```

@@ -1,5 +1,4 @@
 version: v1
-name: buf.build/gomxcorgapis/extapi
 lint:
   use:
     - DEFAULT
@@ -8,3 +7,5 @@ breaking:
     - FILE
 deps:
   - buf.build/googleapis/googleapis
+  - buf.build/grpc-ecosystem/grpc-gateway
+

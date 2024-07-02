@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/emma-sleep/go-telemetry/mlog"
 	"os"
 	"os/signal"
 	"strings"
@@ -22,7 +23,7 @@ import (
 var version string
 var rootCmd = &cobra.Command{
 	Use:               "service",
-	Short:             "template for go service",
+	Short:             "template for go api service",
 	Version:           version,
 	PersistentPreRunE: initConfig,
 	RunE:              run,
@@ -49,23 +50,18 @@ func run(cmd *cobra.Command, args []string) error {
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 	defer cancel()
-	logger, err := mlog.New(
-		cfg.Logging,
-		mlog.WithService("service"),
-		mlog.WithVersion(version))
-	if err != nil {
-		return fmt.Errorf("couldn't initialize logger: %v", err)
-	}
-	ctx = mlog.ToContext(ctx, logger)
 
-	logger.Info("starting service")
-	a := app.New(cfg)
+	logger := mlog.NewWithOptions(&mlog.Options{
+		Output: os.Stdout,
+		Source: false,
+		Level:  mlog.LevelDebug,
+	})
+
+	logger.Info(ctx, "starting service")
+	a := app.New(cfg, logger)
+
 	a.Start(ctx)
 
-	err = prompublisher.New(cfg.Prometheus).Start(ctx)
-	if err != nil {
-		return fmt.Errorf("prometheus start failed %v", err)
-	}
 	<-a.Done()
 	return fmt.Errorf("application has exited")
 }

@@ -3,11 +3,10 @@ package app
 
 import (
 	"context"
-
+	"github.com/emma-sleep/go-telemetry/mlog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"google.golang.org/grpc"
-
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
 
 	"github.com/niuroulamian/restful-api-service/internal/server"
 	"github.com/niuroulamian/restful-api-service/internal/server/marshal"
@@ -15,60 +14,46 @@ import (
 
 // Config contains configuration of the application
 type Config struct {
-	Logging mlog.Config `mapstructure:"logging"`
+	Logging zap.Config `mapstructure:"logging"`
 
 	Version string
 }
 
 // App represents the running application
 type App struct {
-	logger       *zap.SugaredLogger
+	logger       *mlog.MLog
 	cfg          Config
 	port         string
 	httpEndPoint string
-	mon          *monitor.Monitor
 	grpcServer   *grpc.Server
-	mux          *runtime.ServeMux
-	neosrvCli    *neosrvcli.NEOServiceClient
-	mxpsrvCli    *mxpsrvcli.MXPServiceClient
-	// authentication client
-	authCli *authcli.AuthCli
+	proxy        *server.Service
 
-	mockCustody *mockcustody.Service
-	proxy       *server.Service
-	neosrv      *neosrv.Service
-	mxpsrv      *mxpsrv.Service
+	mux  *runtime.ServeMux
+	done chan struct{}
 }
 
 // New returns an instance of the App with the given configuration
-func New(cfg Config) *App {
+func New(cfg Config, logger *mlog.MLog) *App {
 	return &App{
-		cfg:  cfg,
-		port: ":8081",
+		cfg:    cfg,
+		port:   ":8081",
+		logger: logger,
 	}
 }
 
 // Start starts all the services required to run application
 func (a *App) Start(ctx context.Context) {
-	a.logger = mlog.Extract(ctx)
-	a.mon, ctx = monitor.New(ctx)
-	go func() {
-		if err := a.startServices(ctx); err != nil {
-			mlog.Extract(ctx).With(zap.Error(err)).Error("couldn't start the app")
-			a.Stop()
-			return
-		}
-		mlog.Extract(ctx).Debug("app is running")
-		<-ctx.Done()
+	a.done = make(chan struct{})
+	if err := a.startServices(ctx); err != nil {
+		a.logger.Error(ctx, "couldn't start the app")
 		a.Stop()
-	}()
+		return
+	}
+	<-ctx.Done()
+	a.Stop()
 }
 
 func (a *App) startServices(ctx context.Context) error {
-	err := a.establishExternalConnections(ctx)
-	if err != nil {
-		return err
-	}
 	a.grpcServer = grpc.NewServer()
 	// creating mux for gRPC gateway. This will multiplex or route request different gRPC service
 	a.mux = runtime.NewServeMux(
@@ -90,7 +75,7 @@ func (a *App) startServices(ctx context.Context) error {
 	)
 	a.httpEndPoint = "localhost" + a.port
 
-	err = a.startAPIService(ctx)
+	err := a.startAPIService(ctx)
 	if err != nil {
 		return err
 	}
@@ -101,38 +86,6 @@ func (a *App) startServices(ctx context.Context) error {
 	}
 	a.mon.Watch(ctx, "proxy", a.proxy)
 	return nil
-}
-
-func (a *App) establishExternalConnections(ctx context.Context) error {
-	var err error
-	a.neosrvCli, err = neosrvcli.Connect(ctx, a.cfg.NeoServiceClient)
-	if err != nil {
-		return err
-	}
-	a.authCli, err = authcli.New(a.cfg.UserSrvClient)
-	if err != nil {
-		return err
-	}
-	a.mxpsrvCli, err = mxpsrvcli.Connect(ctx, a.cfg.MXPServiceClient)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (a *App) closeExternalConnections() {
-	err := a.neosrvCli.Close()
-	if err != nil {
-		a.logger.Error("couldn't close connection to neo service server")
-	}
-	err = a.authCli.Close()
-	if err != nil {
-		a.logger.Error("couldn't close connection to auth server")
-	}
-	err = a.mxpsrvCli.Close()
-	if err != nil {
-		a.logger.Error("couldn't close connection to mxp server")
-	}
 }
 
 func (a *App) startAPIService(ctx context.Context) (err error) {
@@ -165,12 +118,11 @@ func (a *App) startAPIService(ctx context.Context) (err error) {
 
 // Stop stops the application
 func (a *App) Stop() {
-	a.closeExternalConnections()
-	a.mon.Cancel()
 	a.grpcServer.GracefulStop()
+	close(a.done)
 }
 
 // Done returns channel that is closed once the applicaiton exits
 func (a *App) Done() <-chan struct{} {
-	return a.mon.Done()
+	return a.done
 }

@@ -1,0 +1,73 @@
+swagger: "2.0"
+info:
+  title: OMS API used by external and internal systems.
+  description: An example use case of this API will be for third party systems like Sprinklr to query information about customers and orders. Sprinklr uses this for its customer agents and bots.
+  version: 0.1.0
+tags:
+  - name: MockAPIService
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /api/v1/service_info:
+    get:
+      summary: Get and print service information
+      operationId: getServiceInfo
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/extapiGetServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: serviceId
+          description: '"unique id of the service"'
+          in: query
+          required: true
+          type: string
+      tags:
+        - service
+definitions:
+  extapiGetServiceInfoResponse:
+    type: object
+    properties:
+      response:
+        type: string
+        example: hello world
+      someIndex:
+        type: string
+        format: int64
+        example: 123
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    description: 'Authentication token, prefixed by Bearer: Bearer <token>'
+    name: Authorization
+    in: header
+security:
+  - bearerAuth: []

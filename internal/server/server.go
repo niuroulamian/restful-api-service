@@ -4,15 +4,12 @@ package server
 import (
 	"context"
 	"embed"
+	"go.uber.org/zap"
 	"io/fs"
 	"log"
 	"net"
 	"net/http"
 	"time"
-
-	"go.uber.org/zap"
-
-	"go.mxc.org/mlog"
 
 	"github.com/felixge/httpsnoop"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -109,7 +106,6 @@ var staticsFS embed.FS
 func (s *Service) loadStatics(ctx context.Context) error {
 	files, err := fs.Sub(staticsFS, "statics")
 	if err != nil {
-		mlog.Extract(ctx).Errorf("couldn't get static files: %v", err)
 		return err
 	}
 	s.FS = files
@@ -122,7 +118,6 @@ func (s *Service) loadStatics(ctx context.Context) error {
 		}
 		s.statics[path], err = fs.ReadFile(files, path)
 		if err != nil {
-			mlog.Extract(ctx).Errorf("couldn't read %s: %v", path, err)
 			return err
 		}
 		return nil
