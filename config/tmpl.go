@@ -25,10 +25,6 @@ encode_json = false
 interval_seconds = 10
 first = 10
 thereafter = 100
-
-[prometheus]
-enable = {{getenv "PROMETHEUS_ENABLE"}}
-bind = "{{getenv "PROMETHEUS_BIND"}}"
 `
 
 func getEnv(key string) (interface{}, error) {

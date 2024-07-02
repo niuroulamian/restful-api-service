@@ -29,16 +29,6 @@ import (
 type Config struct {
 	Logging mlog.Config `mapstructure:"logging"`
 
-	Prometheus prompublisher.Config `mapstructure:"prometheus"`
-
-	MockCustodyClient grpccon.ClientConfig `mapstructure:"mockcustody"`
-
-	NeoServiceClient grpccon.ClientConfig `mapstructure:"neo_service"`
-
-	MXPServiceClient grpccon.ClientConfig `mapstructure:"mxp_service"`
-
-	UserSrvClient grpccon.ClientConfig `mapstructure:"usersrv"`
-
 	Version string
 }
 
