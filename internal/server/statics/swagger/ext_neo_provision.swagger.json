@@ -1,0 +1,182 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ext_neo_provision.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/neo/delete-miner": {
+      "post": {
+        "operationId": "DeleteMiner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiDeleteMinerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiDeleteMinerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOProvisionService"
+        ]
+      }
+    },
+    "/api/neo/register-miner": {
+      "post": {
+        "operationId": "RegisterMiner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiRegisterMinerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiRegisterMinerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOProvisionService"
+        ]
+      }
+    },
+    "/api/neo/update-miner": {
+      "post": {
+        "operationId": "UpdateMiner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiUpdateMinerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiUpdateMinerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOProvisionService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "extapiDeleteMinerRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiDeleteMinerResponse": {
+      "type": "object"
+    },
+    "extapiRegisterMinerRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiRegisterMinerResponse": {
+      "type": "object"
+    },
+    "extapiUpdateMinerRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiUpdateMinerResponse": {
+      "type": "object"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

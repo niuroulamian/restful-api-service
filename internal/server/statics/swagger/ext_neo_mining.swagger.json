@@ -1,0 +1,786 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ext_neo_mining.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/neo/auto-bond": {
+      "post": {
+        "operationId": "SetAutoBond",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiSetAutoBondResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiSetAutoBondRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/bond-tier": {
+      "post": {
+        "operationId": "BondTier",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiBondTierResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiBondTierRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/boost-mpower": {
+      "post": {
+        "operationId": "BoostMiningPower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiBoostMiningPowerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiBoostMiningPowerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/current-block-height": {
+      "get": {
+        "operationId": "GetCurrentBlockHeight",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetCurrentBlockHeightResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/deposit-fuel": {
+      "post": {
+        "operationId": "DepositFuel",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiDepositFuelResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiDepositFuelRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/latest-mining-results": {
+      "get": {
+        "operationId": "GetLatestMiningResults",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetLatestMiningResultsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "count",
+            "description": "last x number of result for.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "serialNumber",
+            "description": "serial number specify the miner.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/list-bonds": {
+      "get": {
+        "operationId": "GetBondList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetBondListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serialNumber",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/list-miners": {
+      "get": {
+        "operationId": "ListMiners",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiListMinersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/miner-info": {
+      "get": {
+        "operationId": "GetMinerInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetMinerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serialNumber",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/mpower-boost-amount": {
+      "get": {
+        "operationId": "GetMiningPowerBoostAmount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetMiningPowerBoostAmountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serialNumber",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/total-bonded-amount": {
+      "get": {
+        "operationId": "GetTotalBondedAmount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetTotalBondedAmountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/total-unbond-amount": {
+      "get": {
+        "operationId": "GetTotalUnbondRequested",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetTotalUnbondRequestedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/unbond-tier": {
+      "post": {
+        "operationId": "UnBondTier",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiUnBondTierResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiUnBondTierRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/unboost-mpower": {
+      "post": {
+        "operationId": "UnBoostMiningPower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiUnBoostMiningPowerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiUnBoostMiningPowerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    },
+    "/api/neo/withdraw-fuel": {
+      "post": {
+        "operationId": "WithdrawFuel",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiWithdrawFuelResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiWithdrawFuelRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NEOMiningService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "extapiBond": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "totalBondAmount": {
+          "type": "string",
+          "title": "up until now, how much tokens has been bonded to this tier"
+        },
+        "autoBond": {
+          "type": "boolean"
+        },
+        "unbondPenalty": {
+          "type": "string",
+          "title": "if user is about to cancel this bond right now, this number represent the penalty"
+        },
+        "mpowerBoost": {
+          "type": "string",
+          "title": "amount of tokens bond for boosting mining power"
+        },
+        "stageStartBlockHeight": {
+          "type": "string",
+          "format": "int64",
+          "title": "Types of stage: tutorial period, first period, follow-up period, decision period (144 blocks)\nstart block height of current stage of the bond, this can be used for calculating countdown"
+        },
+        "currentStageDuration": {
+          "type": "string",
+          "format": "int64",
+          "title": "number of blocks for this bond in current stage.\nvalue is 4320 for tutorial period\nvalue is 12960 for init bond period after tutorial\nvalue is 4320 for follow up period after init bond\nvalue is 144 for in-between stage"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ponderPeriod": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "extapiBondTierRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiBondTierResponse": {
+      "type": "object"
+    },
+    "extapiBoostMiningPowerRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "boostAmount": {
+          "type": "string",
+          "title": "amount of tokens to be bond to miner for boosting mining power"
+        }
+      }
+    },
+    "extapiBoostMiningPowerResponse": {
+      "type": "object"
+    },
+    "extapiDepositFuelRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "fuelAmount": {
+          "type": "string",
+          "title": "amount of tokens to be added to fuel"
+        }
+      }
+    },
+    "extapiDepositFuelResponse": {
+      "type": "object"
+    },
+    "extapiGetBondListResponse": {
+      "type": "object",
+      "properties": {
+        "bonds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/extapiBond"
+          }
+        }
+      }
+    },
+    "extapiGetCurrentBlockHeightResponse": {
+      "type": "object",
+      "properties": {
+        "blockHeight": {
+          "type": "string",
+          "format": "int64",
+          "title": "latest block height recorded in supernode"
+        }
+      }
+    },
+    "extapiGetLatestMiningResultsResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/extapiMiningResult"
+          }
+        }
+      }
+    },
+    "extapiGetMinerInfoResponse": {
+      "type": "object",
+      "properties": {
+        "miner": {
+          "$ref": "#/definitions/extapiMiner"
+        }
+      }
+    },
+    "extapiGetMiningPowerBoostAmountResponse": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "title": "total amount of tokens bond to miner for boosting mining power"
+        }
+      }
+    },
+    "extapiGetTotalBondedAmountResponse": {
+      "type": "object",
+      "properties": {
+        "totalAmount": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiGetTotalUnbondRequestedResponse": {
+      "type": "object",
+      "properties": {
+        "totalAmount": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiListMinersResponse": {
+      "type": "object",
+      "properties": {
+        "miners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/extapiMiner"
+          }
+        }
+      }
+    },
+    "extapiMiner": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "mac": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "osVersion": {
+          "type": "string"
+        },
+        "activeTier": {
+          "type": "string"
+        },
+        "totalMiningResults": {
+          "type": "string"
+        },
+        "health": {
+          "type": "string"
+        },
+        "fuelPercentage": {
+          "type": "string"
+        },
+        "uptimeHealth": {
+          "type": "string"
+        },
+        "currentFuel": {
+          "type": "string"
+        },
+        "inTutorial": {
+          "type": "boolean"
+        }
+      }
+    },
+    "extapiMiningResult": {
+      "type": "object",
+      "properties": {
+        "blockHeight": {
+          "type": "string",
+          "format": "int64",
+          "title": "block_height is at which block the mining result is finalized"
+        },
+        "result": {
+          "type": "string",
+          "title": "mining result at specific block height"
+        },
+        "currency": {
+          "type": "string",
+          "title": "result currency"
+        }
+      }
+    },
+    "extapiSetAutoBondRequest": {
+      "type": "object",
+      "properties": {
+        "bondId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "autoBond": {
+          "type": "boolean"
+        }
+      }
+    },
+    "extapiSetAutoBondResponse": {
+      "type": "object"
+    },
+    "extapiUnBondTierRequest": {
+      "type": "object",
+      "properties": {
+        "bondId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "extapiUnBondTierResponse": {
+      "type": "object"
+    },
+    "extapiUnBoostMiningPowerRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "unboostAmount": {
+          "type": "string",
+          "title": "amount of tokens to be unbond from miner"
+        }
+      }
+    },
+    "extapiUnBoostMiningPowerResponse": {
+      "type": "object"
+    },
+    "extapiWithdrawFuelRequest": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "fuelAmount": {
+          "type": "string",
+          "title": "amount of tokens to be removed from fuel"
+        }
+      }
+    },
+    "extapiWithdrawFuelResponse": {
+      "type": "object"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

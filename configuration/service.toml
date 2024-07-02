@@ -1,0 +1,17 @@
+[logging]
+level = "debug"
+encode_json = false
+[logging.sampling]
+interval_seconds = 10
+first = 10
+thereafter = 100
+
+[prometheus]
+enable = true
+bind = "0.0.0.0:9000"
+
+[mockcustody_client]
+address="mockcustody:8082"
+ca_cert=""
+cert=""
+key=""

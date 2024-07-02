@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package extapi;
+option go_package = "go.mxc.org/external-api/extapi;extapi";
+
+import "google/api/annotations.proto";
+
+
+// MockCustodyService is the service providing API endpoints implemented by mockcustody service
+service MockCustodyService {
+  rpc GetCoinInfo (GetCoinInfoRequest) returns (GetCoinInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/custody/coin_info/*"
+    };
+  }
+
+  rpc GetNewAddress (GetNewAddressRequest) returns (GetNewAddressResponse) {
+    option (google.api.http) = {
+      post: "/v1/custody/new_address/*"
+      body: "*"
+    };
+  }
+
+  rpc GetTransactionsByTime (GetTransactionsByTimeRequest) returns (GetTransactionsByTimeResponse) {
+    option (google.api.http) = {
+      get: "/v1/custody/transactions_by_time/*"
+    };
+  }
+
+  rpc GetTransactionsByID (GetTransactionsByIDRequest) returns (GetTransactionsByIDResponse) {
+    option (google.api.http) = {
+      get: "/v1/custody/transactions_by_id/*"
+    };
+  }
+
+  rpc NewWithdraw (NewWithdrawRequest) returns (NewWithdrawResponse) {
+    option (google.api.http) = {
+      post: "/v1/custody/new_withdraw_request/*"
+      body: "*"
+    };
+  }
+
+  rpc QueryWithdrawInfo (QueryWithdrawInfoRequest) returns (QueryWithdrawInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/custody/withdraw_info_by_request_id/*"
+    };
+  }
+}
+
+message QueryWithdrawInfoRequest {
+  string request_id = 1 [json_name = "request_id"];
+}
+
+message QueryWithdrawInfoResponse {
+  bool success = 1 [json_name = "success"];
+  MockTransaction result = 2 [json_name = "result"];
+}
+
+message NewWithdrawRequest {
+  string coin = 1 [json_name = "coin"];
+  string request_id = 2 [json_name = "request_id"];
+  string address = 3 [json_name = "address"];
+  string amount = 4 [json_name = "amount"];
+}
+
+message NewWithdrawResponse {
+  bool success = 1 [json_name = "success"];
+  string result = 2 [json_name = "result"];
+}
+
+message GetTransactionsByIDRequest {
+  string side = 1 [json_name = "side"];
+  string coin = 2 [json_name = "coin"];
+  string min_id = 3 [json_name = "min_id"];
+}
+
+message GetTransactionsByIDResponse {
+  bool success = 1 [json_name = "success"];
+  repeated MockTransaction result = 2 [json_name = "result"];
+}
+
+message GetTransactionsByTimeRequest {
+  string side = 1 [json_name = "side"];
+  string coin = 2 [json_name = "coin"];
+  string begin_time = 3 [json_name = "begin_time"];
+}
+
+message MockTransaction {
+  string id = 1 [json_name = "id"];
+  string coin = 2 [json_name = "coin"];
+  string display_code = 3 [json_name = "display_code"];
+  string description = 4 [json_name = "description"];
+  double  decimal = 5  [json_name = "decimal"];
+  string address = 6 [json_name = "address"];
+  string memo  = 7 [json_name = "memo"];
+  string source_address = 8 [json_name = "source_address"];
+  string side  = 9 [json_name = "side"];
+  string amount  = 10[json_name = "amount"];
+  string abs_amount  =11 [json_name = "abs_amount"];
+  string abs_cobo_fee  =12[json_name = "abs_cobo_fee"];
+  string txid   =13 [json_name = "txid"];
+  double  vout_n   =14  [json_name = "vout_n"];
+  string resquest_id =15[json_name = "resquest_id"];
+  string status    =16 [json_name = "status"];
+  double  created_time =17  [json_name = "created_time"];
+  double  last_time   =18 [json_name = "last_time"];
+  double  confirming_threshold =19  [json_name = "confirming_threshold"];
+  double  confirmed_num   = 20  [json_name = "confirmed_num"];
+  string type  =21 [json_name = "type"];
+  string fee_coin  =22 [json_name = "fee_coin"];
+  string fee_amount =23 [json_name = "fee_amount"];
+  string fee_decimal =24 [json_name = "fee_decimal"];
+}
+
+message GetTransactionsByTimeResponse {
+  bool success = 1 [json_name = "success"];
+  repeated MockTransaction result = 2 [json_name = "result"];
+}
+
+message GetNewAddressRequest {
+  string coin = 1 [json_name = "coin"];
+}
+message Address {
+  string coin = 1 [json_name = "coin"];
+  string address = 2 [json_name = "address"];
+}
+message GetNewAddressResponse {
+  bool success = 1 [json_name = "success"];
+  Address result = 2 [json_name = "result"];
+}
+
+message GetCoinInfoRequest {
+  string coin = 1 [json_name = "coin"];
+}
+
+message GetCoinInfoResponse {
+  bool success = 1 [json_name = "success"];
+  string result = 2 [json_name = "result"];
+}

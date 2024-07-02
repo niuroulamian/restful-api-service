@@ -1,0 +1,21 @@
+version: "3"
+services:
+  externalapi:
+    container_name: externalapi
+    build:
+      context: .
+      dockerfile: Dockerfile-devel
+    volumes:
+     - .:/service
+     - ./configuration:/etc/service
+     - $HOME/.netrc:/root/.netrc
+     - ../mockcustody:/mockcustody
+    ports:
+      - "8081:8081"
+    environment:
+      - GOPRIVATE=go.mxc.org
+    security_opt:
+     - seccomp:unconfined
+    cap_add:
+     - SYS_PTRACE
+    tty: true
