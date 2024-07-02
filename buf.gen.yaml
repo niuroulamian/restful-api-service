@@ -1,0 +1,21 @@
+version: v1
+plugins:
+  - name: go
+    out: go/v1
+    opt:
+      - paths=source_relative
+  - name: go-grpc
+    out: go/v1
+    opt:
+      - paths=source_relative
+  - name: grpc-gateway
+    out: go/v1
+    opt:
+      - paths=source_relative
+      - logtostderr=true
+      - generate_unbound_methods=true
+  - name: swagger
+    out: swagger/v1
+    opt:
+      - json_names_for_fields=true
+      - simple_operation_ids=true

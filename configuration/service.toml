@@ -1,0 +1,7 @@
+[logging]
+level = "debug"
+encode_json = false
+[logging.sampling]
+interval_seconds = 10
+first = 10
+thereafter = 100

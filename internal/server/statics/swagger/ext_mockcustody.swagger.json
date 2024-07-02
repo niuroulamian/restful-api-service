@@ -1,0 +1,449 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ext_mockcustody.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/custody/coin_info/*": {
+      "get": {
+        "operationId": "GetCoinInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetCoinInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "coin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MockCustodyService"
+        ]
+      }
+    },
+    "/v1/custody/new_address/*": {
+      "post": {
+        "operationId": "GetNewAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetNewAddressResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiGetNewAddressRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MockCustodyService"
+        ]
+      }
+    },
+    "/v1/custody/new_withdraw_request/*": {
+      "post": {
+        "operationId": "NewWithdraw",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiNewWithdrawResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/extapiNewWithdrawRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MockCustodyService"
+        ]
+      }
+    },
+    "/v1/custody/transactions_by_id/*": {
+      "get": {
+        "operationId": "GetTransactionsByID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetTransactionsByIDResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "side",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "coin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "min_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MockCustodyService"
+        ]
+      }
+    },
+    "/v1/custody/transactions_by_time/*": {
+      "get": {
+        "operationId": "GetTransactionsByTime",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiGetTransactionsByTimeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "side",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "coin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "begin_time",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MockCustodyService"
+        ]
+      }
+    },
+    "/v1/custody/withdraw_info_by_request_id/*": {
+      "get": {
+        "operationId": "QueryWithdrawInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/extapiQueryWithdrawInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MockCustodyService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "extapiAddress": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiGetCoinInfoResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiGetNewAddressRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiGetNewAddressResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/extapiAddress"
+        }
+      }
+    },
+    "extapiGetTransactionsByIDResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/extapiMockTransaction"
+          }
+        }
+      }
+    },
+    "extapiGetTransactionsByTimeResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/extapiMockTransaction"
+          }
+        }
+      }
+    },
+    "extapiMockTransaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "display_code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "decimal": {
+          "type": "number",
+          "format": "double"
+        },
+        "address": {
+          "type": "string"
+        },
+        "memo": {
+          "type": "string"
+        },
+        "source_address": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "abs_amount": {
+          "type": "string"
+        },
+        "abs_cobo_fee": {
+          "type": "string"
+        },
+        "txid": {
+          "type": "string"
+        },
+        "vout_n": {
+          "type": "number",
+          "format": "double"
+        },
+        "resquest_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "created_time": {
+          "type": "number",
+          "format": "double"
+        },
+        "last_time": {
+          "type": "number",
+          "format": "double"
+        },
+        "confirming_threshold": {
+          "type": "number",
+          "format": "double"
+        },
+        "confirmed_num": {
+          "type": "number",
+          "format": "double"
+        },
+        "type": {
+          "type": "string"
+        },
+        "fee_coin": {
+          "type": "string"
+        },
+        "fee_amount": {
+          "type": "string"
+        },
+        "fee_decimal": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiNewWithdrawRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiNewWithdrawResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "extapiQueryWithdrawInfoResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/extapiMockTransaction"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
