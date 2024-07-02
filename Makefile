@@ -1,6 +1,5 @@
-.PHONY: build api clean dev-requirements golangci-lint test deubg dep-graph
+.PHONY: build api clean dev-requirements test deubg dep-graph
 VERSION := $(shell git describe --tags --always)
-GOPRIVATE=go.mxc.org
 
 build: clean
 	mkdir -p build

@@ -4,25 +4,13 @@ package app
 import (
 	"context"
 
-	"go.mxc.org/external-api/internal/mxpsrv"
-
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 
 	"go.uber.org/zap"
 
-	"go.mxc.org/external-api/internal/client/mxpsrvcli"
-	"go.mxc.org/external-api/internal/client/neosrvcli"
-	"go.mxc.org/external-api/internal/grpcauth"
-	"go.mxc.org/external-api/internal/mockcustody"
-	"go.mxc.org/external-api/internal/neosrv"
-	"go.mxc.org/external-api/internal/server"
-	"go.mxc.org/external-api/internal/server/marshal"
-	"go.mxc.org/grpcutil/grpccon"
-	"go.mxc.org/mlog"
-	"go.mxc.org/monitor"
-	"go.mxc.org/prompublisher"
-	"go.mxc.org/usersrv/pkg/authcli"
+	"github.com/niuroulamian/restful-api-service/internal/server"
+	"github.com/niuroulamian/restful-api-service/internal/server/marshal"
 )
 
 // Config contains configuration of the application
