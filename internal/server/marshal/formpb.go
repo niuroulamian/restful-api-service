@@ -10,10 +10,10 @@ import (
 	"net/url"
 	"reflect"
 
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/grpc-ecosystem/grpc-gateway/utilities"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/utilities"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/runtime/protoiface"
+	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
 // Form implements customized marshaler for incoming request with type x-www-form-urlencoded
@@ -32,7 +32,7 @@ func (f *Form) NewEncoder(w io.Writer) runtime.Encoder {
 }
 
 // ContentType implements customized marshaler for incoming request with type x-www-form-urlencoded
-func (f *Form) ContentType() string {
+func (f *Form) ContentType(v interface{}) string {
 	return "application/x-www-form-urlencoded"
 }
 
@@ -88,7 +88,7 @@ func (f *Form) marshalNonProtoField(v interface{}) ([]byte, error) {
 		}
 		return json.Marshal(m)
 	}
-	if enum, ok := rv.Interface().(protoEnum); ok && !f.PB.EnumsAsInts {
+	if enum, ok := rv.Interface().(protoEnum); ok && !f.PB.UseEnumNumbers {
 		return json.Marshal(enum.String())
 	}
 	return json.Marshal(rv.Interface())
@@ -100,7 +100,7 @@ func (f *Form) NewDecoder(r io.Reader) runtime.Decoder {
 }
 
 func decodeFORMPb(d io.Reader, v interface{}) error {
-	msg, ok := v.(protoiface.MessageV1)
+	msg, ok := v.(protoreflect.ProtoMessage)
 
 	if !ok {
 		return fmt.Errorf("not proto message")

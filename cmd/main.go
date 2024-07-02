@@ -2,31 +2,26 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"fmt"
-	"github.com/emma-sleep/go-telemetry/mlog"
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 
+	"github.com/emma-sleep/go-telemetry/mlog"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
 	"go.uber.org/zap"
 
-	"github.com/niuroulamian/restful-api-service/config"
 	"github.com/niuroulamian/restful-api-service/internal/app"
 )
 
 var version string
 var rootCmd = &cobra.Command{
-	Use:               "service",
-	Short:             "template for go api service",
-	Version:           version,
-	PersistentPreRunE: initConfig,
-	RunE:              run,
+	Use:     "service",
+	Short:   "template for go api service",
+	Version: version,
+	RunE:    run,
 }
 
 func main() {
@@ -42,12 +37,6 @@ func main() {
 }
 
 func run(cmd *cobra.Command, args []string) error {
-	var cfg app.Config
-	if err := viper.Unmarshal(&cfg); err != nil {
-		return fmt.Errorf("couldn't unmarshal config file: %v", err)
-	}
-	cfg.Version = version
-
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 	defer cancel()
 
@@ -58,38 +47,10 @@ func run(cmd *cobra.Command, args []string) error {
 	})
 
 	logger.Info(ctx, "starting service")
-	a := app.New(cfg, logger)
+	a := app.New(app.Config{}, logger)
 
 	a.Start(ctx)
 
 	<-a.Done()
 	return fmt.Errorf("application has exited")
-}
-
-func initConfig(cmd *cobra.Command, args []string) error {
-	// load /etc/service/service.toml if exists
-	if _, err := os.Stat("/etc/service/service.toml"); err == nil {
-		// config file exists, load file's content
-		zap.S().Info("load configuration from /etc/service/service.toml")
-		viper.SetConfigFile("/etc/service/service.toml")
-		if err := viper.ReadInConfig(); err != nil {
-			return fmt.Errorf("couldn't read config file: %v", err)
-		}
-		return nil
-	} else if !os.IsNotExist(err) {
-		return err
-	}
-
-	// file /etc/service/service.toml does not exist,
-	// generate configuration content from service.tmpl
-	viper.SetEnvPrefix("")
-	viper.AutomaticEnv()
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-
-	buff := bytes.NewBuffer(nil)
-	err := config.GetConfig(buff)
-	if err != nil {
-		return fmt.Errorf("couldn't get config: %v", err)
-	}
-	return viper.ReadConfig(buff)
 }

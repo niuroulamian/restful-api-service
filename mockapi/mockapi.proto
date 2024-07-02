@@ -13,7 +13,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     version: "0.1.0";
     description: "An example use case of this API will be for third party systems like Sprinklr to query information about customers and orders. Sprinklr uses this for its customer agents and bots.";
   };
-  schemes: HTTPS;
+  schemes: [HTTPS, HTTP];
   consumes: "application/json";
   produces: "application/json";
   security_definitions: {

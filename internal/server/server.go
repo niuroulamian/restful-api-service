@@ -4,7 +4,6 @@ package server
 import (
 	"context"
 	"embed"
-	"go.uber.org/zap"
 	"io/fs"
 	"log"
 	"net"
@@ -12,8 +11,9 @@ import (
 	"time"
 
 	"github.com/felixge/httpsnoop"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/soheilhy/cmux"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
